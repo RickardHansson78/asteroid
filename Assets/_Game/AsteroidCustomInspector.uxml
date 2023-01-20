@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/_Game/AsteroidEditorStyle.uss?fileID=7433441132597879392&amp;guid=8f42efa306a006a42b8c9501d8a73572&amp;type=3#AsteroidEditorStyle" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement class="field">
+            <ui:Label tabindex="-1" text="Force" display-tooltip-when-elided="true" class="headerText" />
+            <ui:Slider picking-mode="Ignore" label="Min" value="2" high-value="10" name="MinForceSlider" binding-path="_minForce" />
+            <ui:Slider picking-mode="Ignore" label="Max" value="6" high-value="10" name="MaxForceSlider" binding-path="_maxForce" />
+        </ui:VisualElement>
+        <ui:VisualElement class="field">
+            <ui:Label tabindex="-1" text="Size" display-tooltip-when-elided="true" class="headerText" />
+            <ui:Slider picking-mode="Ignore" label="Min" value="1" high-value="10" name="MinSizeSlider" binding-path="_minSize" />
+            <ui:Slider picking-mode="Ignore" label="Max" value="6" high-value="10" name="MaxSizeSlider" binding-path="_maxSize" />
+        </ui:VisualElement>
+        <ui:VisualElement class="field">
+            <ui:Label tabindex="-1" text="Torque" display-tooltip-when-elided="true" class="headerText" />
+            <ui:Slider picking-mode="Ignore" label="Min" value="0.1" high-value="1" name="MinTorqueSlider" binding-path="_minTorque" />
+            <ui:Slider picking-mode="Ignore" label="Max" value="0.5" high-value="1" name="MaxTorqueSlider" binding-path="_maxTorque" />
+        </ui:VisualElement>
+        <ui:VisualElement class="field">
+            <ui:Toggle label="Split" binding-path="_split" name="SplitToggle" />
+            <ui:VisualElement name="SplitElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:SliderInt picking-mode="Ignore" label="Number of Splits" value="0" high-value="3" low-value="0" binding-path="_splitNumber" class="hide" />
+                <uie:ObjectField label="Split Stats" name="StatsField" binding-path="_splitStats" class="hide" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

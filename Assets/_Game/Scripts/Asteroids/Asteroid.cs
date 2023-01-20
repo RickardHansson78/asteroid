@@ -9,21 +9,17 @@ namespace Asteroids
     public class Asteroid : MonoBehaviour
     {
         [SerializeField] private ScriptableEventInt _onAsteroidDestroyed;
-        
-        [Header("Config:")]
-        [SerializeField] private float _minForce;
-        [SerializeField] private float _maxForce;
-        [SerializeField] private float _minSize;
-        [SerializeField] private float _maxSize;
-        [SerializeField] private float _minTorque;
-        [SerializeField] private float _maxTorque;
 
         [Header("References:")]
         [SerializeField] private Transform _shape;
 
+        [SerializeField] private AsteroidStats _currentStats;
+
         private Rigidbody2D _rigidbody;
         private Vector3 _direction;
         private int _instanceId;
+
+        public void SetStats(AsteroidStats stats) => _currentStats = stats;
 
         private void Start()
         {
@@ -47,24 +43,17 @@ namespace Asteroids
         private void HitByLaser()
         {
             _onAsteroidDestroyed.Raise(_instanceId);
-            Destroy(gameObject);
-        }
 
-        // TODO Can we move this to a single listener, something like an AsteroidDestroyer?
-        public void OnHitByLaser(IntReference asteroidId)
-        {
-            if (_instanceId == asteroidId.GetValue())
+            if(_currentStats.Split)
             {
-                Destroy(gameObject);
+                for(int i = 0; i < _currentStats.SplitNumber; i++)
+                {
+                    Asteroid asteroid = Instantiate(this, transform.position, Quaternion.identity);
+                    asteroid.SetStats(_currentStats.SplitStats);
+                }
             }
-        }
-        
-        public void OnHitByLaserInt(int asteroidId)
-        {
-            if (_instanceId == asteroidId)
-            {
-                Destroy(gameObject);
-            }
+
+            Destroy(gameObject);
         }
         
         private void SetDirection()
@@ -80,14 +69,14 @@ namespace Asteroids
         }
 
         private void AddForce()
-        {
-            var force = Random.Range(_minForce, _maxForce);
+            {
+                var force = Random.Range(_currentStats.MinForce, _currentStats.MaxForce);
             _rigidbody.AddForce( _direction * force, ForceMode2D.Impulse);
         }
 
         private void AddTorque()
         {
-            var torque = Random.Range(_minTorque, _maxTorque);
+            var torque = Random.Range(_currentStats.MinTorque, _currentStats.MaxTorque);
             var roll = Random.Range(0, 2);
 
             if (roll == 0)
@@ -98,7 +87,7 @@ namespace Asteroids
 
         private void SetSize()
         {
-            var size = Random.Range(_minSize, _maxSize);
+            var size = Random.Range(_currentStats.MinSize, _currentStats.MaxSize);
             _shape.localScale = new Vector3(size, size, 0f);
         }
     }
